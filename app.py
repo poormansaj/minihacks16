@@ -35,7 +35,7 @@ def contacts():
             cur.execute("""SELECT name from salesforce.contact""")
             rows = cur.fetchall()
             response = ''
-            
+
             for row in rows:
                 my_list.append(row[0])
 
@@ -44,11 +44,28 @@ def contacts():
         print e
         return []
 
-    
+@app.route('/accounts')
+def accounts():
+    try:
+        my_list = []
+        if cur != None:
+            cur.execute("""SELECT name from salesforce.account""")
+            rows = cur.fetchall()
+            response = ''
+
+            for row in rows:
+                my_list.append(row[0])
+
+        return render_template('template.html',  results=my_list)
+    except Exception as e:
+        print e
+        return []
+
+
 if __name__ == '__main__':
     handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=10)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
     app.run()
 
-	
+
